@@ -64,7 +64,7 @@ export function Process() {
             className="via-border absolute start-[1.45rem] top-6 bottom-8 hidden w-px bg-gradient-to-b from-transparent to-transparent lg:block"
           />
 
-          <ol className="mt-10 grid gap-4 sm:grid-cols-3 lg:mt-0 lg:grid-cols-1">
+          <ol className="mt-10 grid gap-4 sm:grid-cols-2 lg:mt-0 lg:grid-cols-1">
             {processSteps.map((step, index) => (
               <li key={step.title} className="h-full">
                 <BlurFade delay={0.06 * index} inView className="h-full">
