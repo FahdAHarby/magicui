@@ -9,6 +9,9 @@ import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ?? "https://nilesmile-dental.example"
+  ),
   title: {
     default: `${clinic.fullName} — Dentist in New Cairo & Sheikh Zayed`,
     template: `%s · ${clinic.fullName}`,
