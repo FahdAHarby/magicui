@@ -20,6 +20,16 @@ pnpm build   # production build
 pnpm typecheck
 ```
 
+### Static export (no server needed)
+
+```bash
+STATIC_EXPORT=1 pnpm build   # writes a self-contained site into out/
+npx serve out                # …or open out/index.html directly
+```
+
+The exported `out/` folder is plain HTML/CSS/JS, so it can be dropped on any
+static host (GitHub Pages, Netlify, Cloudflare Pages, S3) or zipped and shared.
+
 ## What's inside
 
 | Section | Notes |
