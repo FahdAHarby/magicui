@@ -12,9 +12,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { useScrollLock } from "@/components/motion/smooth-scroll-provider"
 
 export function MobileNav({ className }: { className?: string }) {
   const [open, setOpen] = React.useState(false)
+
+  useScrollLock(open)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -46,7 +49,7 @@ export function MobileNav({ className }: { className?: string }) {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="bg-background/90 no-scrollbar h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur duration-100"
+        className="bg-background/95 no-scrollbar data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:slide-in-from-top-2 h-(--radix-popper-available-height) w-(--radix-popper-available-width) overflow-y-auto rounded-none border-none p-0 shadow-none backdrop-blur-xl duration-200"
         align="start"
         side="bottom"
         alignOffset={-16}

@@ -1,9 +1,11 @@
 "use client"
 
-import type { SVGProps } from "react"
-import { useState } from "react"
+import { useState, type SVGProps } from "react"
 import Image from "next/image"
-import { motion } from "motion/react"
+
+import { cn } from "@/lib/utils"
+import { Reveal } from "@/components/motion/reveal"
+import { SectionHeading } from "@/components/sections/section-heading"
 
 const YOUTUBE_THUMBNAIL_BASE_URL = "https://img.youtube.com/vi"
 const VIDEO_EMBEDS = [
@@ -17,8 +19,7 @@ const VIDEO_EMBEDS = [
 function extractVideoId(url: string) {
   try {
     const parsed = new URL(url)
-    const pathnameParts = parsed.pathname.split("/")
-    const lastSegment = pathnameParts.at(-1)
+    const lastSegment = parsed.pathname.split("/").at(-1)
     if (!lastSegment) {
       return ""
     }
@@ -56,14 +57,18 @@ export function VideoTestimonials() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   return (
-    <section
-      id="video-testimonials"
-      className="container mx-auto py-10 md:py-14"
-    >
-      <h2 className="text-foreground mb-10 text-center text-3xl leading-[1.2] font-semibold tracking-tighter text-balance md:text-4xl lg:text-5xl">
-        Featured on YouTube
-      </h2>
-      <div className="grid auto-rows-[280px] grid-cols-1 gap-4 md:auto-rows-[300px] md:grid-cols-6 md:gap-6 lg:auto-rows-[320px]">
+    <section id="video-testimonials" className="section container">
+      <SectionHeading
+        eyebrow="05 — On the record"
+        title="Featured on YouTube"
+        description="Walkthroughs, reviews and teardowns from people who opened the repo and stayed."
+      />
+
+      <Reveal
+        stagger={0.08}
+        y={20}
+        className="mt-12 grid auto-rows-[200px] grid-cols-1 gap-4 md:auto-rows-[240px] md:grid-cols-6 md:gap-5 lg:auto-rows-[260px]"
+      >
         {VIDEO_EMBEDS.map((embedUrl, index) => {
           const videoId = extractVideoId(embedUrl)
           const isActive = activeIndex === index
@@ -79,7 +84,7 @@ export function VideoTestimonials() {
                 : "md:col-span-3 md:row-span-1"
 
           return (
-            <motion.button
+            <button
               key={embedUrl}
               type="button"
               aria-pressed={isActive}
@@ -87,14 +92,10 @@ export function VideoTestimonials() {
               onClick={() => {
                 setActiveIndex(index)
               }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter" || event.key === " ") {
-                  event.preventDefault()
-                  setActiveIndex(index)
-                }
-              }}
-              className={`group bg-card focus-visible:outline-primary border-border hover:border-border/80 relative cursor-pointer overflow-hidden rounded-xl border transition-[border-color,transform] duration-200 ease-in-out focus-visible:outline focus-visible:outline-offset-2 ${columnClasses}`}
-              whileHover={{ scale: 1.01 }}
+              className={cn(
+                "focus-ring group bg-muted border-border/70 hover:border-foreground/25 relative cursor-pointer overflow-hidden rounded-2xl border transition-colors duration-500",
+                columnClasses
+              )}
             >
               {!isActive && (
                 <>
@@ -104,7 +105,7 @@ export function VideoTestimonials() {
                       priority={index === 0}
                       src={thumbnailSrc}
                       alt={`Preview still for testimonial ${index + 1}`}
-                      className="object-cover"
+                      className="object-cover transition-transform duration-[900ms] ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
                       sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
                     />
                   ) : (
@@ -112,10 +113,9 @@ export function VideoTestimonials() {
                       Video preview unavailable
                     </span>
                   )}
-                  <div className="bg-card/5 pointer-events-none absolute inset-0 z-10 opacity-0 backdrop-blur-[2px] transition-opacity duration-300 group-hover:opacity-100" />
-                  <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                  <span className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-                    <PlayIcon className="h-20 w-20 drop-shadow-xl transition-transform duration-200 group-hover:scale-[1.08]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />
+                  <span className="absolute inset-0 flex items-center justify-center">
+                    <PlayIcon className="h-14 w-14 opacity-90 drop-shadow-xl transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-110" />
                   </span>
                 </>
               )}
@@ -125,14 +125,14 @@ export function VideoTestimonials() {
                   title={`YouTube testimonial ${index + 1}`}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
-                  className="h-full w-full"
+                  className="size-full"
                   loading="lazy"
                 />
               )}
-            </motion.button>
+            </button>
           )
         })}
-      </div>
+      </Reveal>
     </section>
   )
 }

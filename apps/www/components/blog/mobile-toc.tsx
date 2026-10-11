@@ -39,7 +39,10 @@ export function MobileTOC() {
               On this page
             </SheetTitle>
           </SheetHeader>
-          <div className="bg-card max-h-[calc(60vh-8rem)] overflow-y-auto p-6 pt-4">
+          <div
+            className="bg-card max-h-[calc(60vh-8rem)] overflow-y-auto p-6 pt-4"
+            data-lenis-prevent
+          >
             <BlogTableOfContents
               className="[&_a:hover]:bg-muted/50 p-0 [&_a]:transition-colors [&_nav]:space-y-2 [&>p]:hidden"
               onLinkClick={() => setOpen(false)}

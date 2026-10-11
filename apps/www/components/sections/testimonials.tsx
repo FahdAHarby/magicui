@@ -1,5 +1,6 @@
-import { ExpandableMasonarySection } from "@/components/sections/expandable-masonary-section"
+import { SectionHeading } from "@/components/sections/section-heading"
 import { TestimonialTweetLink } from "@/components/sections/testimonial-tweet-link"
+import { TestimonialWall } from "@/components/sections/testimonial-wall"
 import { TweetCard } from "@/registry/magicui/tweet-card"
 
 const allTweets = [
@@ -32,7 +33,7 @@ const allTweets = [
   "https://x.com/fredmaiaarantes/status/1684676668445622272",
   "https://x.com/DesignSumu/status/1668559314272022528",
   "https://x.com/commandodev/status/1668640878225764354",
-  "https://x.com/SandBoxSo/status/1668570645741948930",
+  "https://x.com/SandBoxSo/status/1668570645741949168",
   "https://x.com/sxndrao/status/1668634137547399168",
   "https://x.com/sameerposwal03/status/1862084069833797788",
   "https://x.com/eersnington/status/1854657826011967597",
@@ -48,18 +49,19 @@ const allTweets = [
   // "https://x.com/taishik_/status/1875316979831337058",
   // "https://x.com/rauchg/status/1803626308720796147",
   // "https://x.com/dillionverma/status/1879324180598165702",
-  // "https://x.com/Star_Knight12/status/1861814034363981989",
-  // "https://x.com/mohamedzamakhan/status/1859810055924895904",
   // "https://x.com/DutchEngIishman/status/1795888864202043645",
 ].map((t) => t.split("/").slice(-1)[0])
 
 export function Testimonials() {
   return (
-    <section id="testimonials" className="container mx-auto py-10 md:py-14">
-      <h2 className="text-foreground mb-10 text-center text-3xl leading-[1.2] font-semibold tracking-tighter text-balance md:text-4xl lg:text-5xl">
-        What People Are Saying on Twitter
-      </h2>
-      <ExpandableMasonarySection>
+    <section id="testimonials" className="section container">
+      <SectionHeading
+        eyebrow="04 — Word of mouth"
+        title="What people are saying on Twitter"
+        description="Design engineers, founders and the occasional curious CTO."
+      />
+
+      <TestimonialWall>
         {allTweets.map((id) => (
           <TestimonialTweetLink
             key={id}
@@ -67,11 +69,11 @@ export function Testimonials() {
           >
             <TweetCard
               id={id}
-              className="border-border bg-card break-inside-avoid overflow-hidden rounded-xl border transition-[border-color,background-color,box-shadow] duration-200 ease-in-out hover:shadow-md"
+              className="border-border bg-card w-full break-inside-avoid overflow-hidden rounded-xl border transition-shadow duration-300 ease-out hover:shadow-lg"
             />
           </TestimonialTweetLink>
         ))}
-      </ExpandableMasonarySection>
+      </TestimonialWall>
     </section>
   )
 }

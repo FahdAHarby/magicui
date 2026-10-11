@@ -86,6 +86,7 @@ export function DocsTableOfContents({
         <DropdownMenuContent
           align="start"
           className="no-scrollbar max-h-[70svh]"
+          data-lenis-prevent
         >
           {toc.map((item) => (
             <DropdownMenuItem

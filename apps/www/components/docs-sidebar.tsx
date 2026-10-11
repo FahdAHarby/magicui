@@ -102,7 +102,10 @@ export function DocsSidebar({
       collapsible="none"
       {...props}
     >
-      <SidebarContent className="no-scrollbar overflow-x-hidden px-2 pb-12">
+      <SidebarContent
+        className="no-scrollbar overflow-x-hidden px-2 pb-12"
+        data-lenis-prevent
+      >
         <div className="h-(--top-spacing) shrink-0" />
         {docsConfig.sidebarNav.map((section) => {
           return (

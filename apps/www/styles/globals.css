@@ -53,6 +53,11 @@
   --color-3: oklch(69.6% 0.165 251);
   --color-4: oklch(80.2% 0.134 225);
   --color-5: oklch(90.7% 0.231 133);
+
+  /* Hero wash — the always-present CSS layer under the WebGL backdrop. */
+  --hero-glow-a: oklch(from var(--color-3) l c h / 0.16);
+  --hero-glow-b: oklch(from var(--color-1) l c h / 0.14);
+  --hero-glow-c: oklch(from var(--color-5) l c h / 0.16);
 }
 
 .dark {
@@ -95,14 +100,54 @@
   --code-number: oklch(0.72 0 0);
   --selection: oklch(0.922 0 0);
   --selection-foreground: oklch(0.205 0 0);
+
+  /* Deeper, cooler wash for the dark theme. */
+  --hero-glow-a: oklch(from var(--color-3) l c h / 0.3);
+  --hero-glow-b: oklch(from var(--color-2) l c h / 0.26);
+  --hero-glow-c: oklch(from var(--color-5) l c h / 0.14);
 }
 
 @theme inline {
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 2000px;
   --font-sans: var(--font-geist-sans);
-  --font-inter: var(--font-inter);
   --font-mono: var(--font-geist-mono);
+
+  /* Editorial type scale — fluid, tight and built for Geist. */
+  --text-display: clamp(2.6rem, 1.1rem + 5.6vw, 5.25rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.042em;
+
+  --text-headline: clamp(2rem, 1.35rem + 2.4vw, 3.25rem);
+  --text-headline--line-height: 1.06;
+  --text-headline--letter-spacing: -0.032em;
+
+  --text-title: clamp(1.35rem, 1.15rem + 0.7vw, 1.75rem);
+  --text-title--line-height: 1.2;
+  --text-title--letter-spacing: -0.022em;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.35vw, 1.25rem);
+  --text-lead--line-height: 1.6;
+  --text-lead--letter-spacing: -0.011em;
+
+  --text-eyebrow: 0.6875rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.18em;
+  --text-eyebrow--font-weight: 500;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --prism: linear-gradient(
+    100deg,
+    var(--color-1),
+    var(--color-2),
+    var(--color-3),
+    var(--color-4),
+    var(--color-5)
+  );
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -167,12 +212,15 @@
     alternate;
   --animate-shine: shine var(--duration) infinite linear;
   --animate-pulse: pulse var(--duration) ease-out infinite;
-  --animate-pulse-ripple: pulse-ripple var(--duration) cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  --animate-pulse-ripple: pulse-ripple var(--duration)
+    cubic-bezier(0.16, 1, 0.3, 1) infinite;
   --animate-rainbow: rainbow var(--speed, 2s) infinite linear;
   --animate-line-shadow: line-shadow 15s linear infinite;
   --animate-aurora: aurora 8s ease-in-out infinite alternate;
   --animate-ping: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   --animate-blink-cursor: blink-cursor 1.2s step-end infinite;
+  --animate-drift: drift var(--drift-duration, 26s) ease-in-out infinite
+    alternate;
 
   /* End Animation Variables */
 
@@ -185,6 +233,18 @@
     50%,
     100% {
       opacity: 0;
+    }
+  }
+
+  @keyframes drift {
+    0% {
+      transform: translate3d(-3%, -2%, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(2%, 3%, 0) scale(1.08);
+    }
+    100% {
+      transform: translate3d(4%, -3%, 0) scale(0.96);
     }
   }
 
@@ -370,7 +430,8 @@
       box-shadow: 0 0 0 0 var(--pulse-color, oklch(from var(--bg) l c h / 0.5));
     }
     50% {
-      box-shadow: 0 0 0 var(--distance) var(--pulse-color, oklch(from var(--bg) l c h / 0.5));
+      box-shadow: 0 0 0 var(--distance)
+        var(--pulse-color, oklch(from var(--bg) l c h / 0.5));
     }
   }
 
@@ -379,7 +440,8 @@
       box-shadow: 0 0 0 0 oklch(from var(--pulse-color, var(--bg)) l c h / 1);
     }
     100% {
-      box-shadow: 0 0 0 var(--distance) oklch(from var(--pulse-color, var(--bg)) l c h / 0);
+      box-shadow: 0 0 0 var(--distance)
+        oklch(from var(--pulse-color, var(--bg)) l c h / 0);
     }
   }
 
@@ -518,7 +580,7 @@
 
   .steps > h3:before {
     @apply border-background bg-muted absolute inline-flex h-9 w-9 items-center justify-center rounded-full border-4 text-center -indent-px font-mono text-base font-medium;
-    @apply mt-[-4px] ml-[-50px] max-lg:ms-0 max-lg:-start-2;
+    @apply mt-[-4px] ml-[-50px] max-lg:-start-2 max-lg:ms-0;
     content: counter(steps);
   }
 
@@ -627,6 +689,208 @@
   }
 
   iframe {
-    @apply mt-6 rounded-lg overflow-hidden;
+    @apply mt-6 overflow-hidden rounded-lg;
+  }
+}
+
+/* ==========================================================================
+   Motion system
+   ========================================================================== */
+
+/* Lenis owns the scroll position; keep native smooth scrolling as the
+   fallback for reduced motion visitors and in-page anchors. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Hidden start states for the JS driven entrances. They live in CSS so the
+   server rendered markup is already in place, and GSAP writes inline styles
+   that win over these rules once an element animates. */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 18px), 0);
+  filter: blur(var(--reveal-blur, 0px));
+}
+
+[data-reveal][data-reveal-stagger] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+[data-reveal][data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 18px), 0);
+  filter: blur(var(--reveal-blur, 0px));
+}
+
+[data-reveal-image] {
+  will-change: clip-path;
+}
+
+[data-reveal-image] > * {
+  will-change: transform;
+}
+
+/* Lines produced by GSAP SplitText get a clip mask for the slide-up reveal. */
+.split-line {
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal][data-reveal-stagger] > *,
+  [data-split] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  [data-reveal-image] {
+    clip-path: none !important;
+  }
+
+  [data-reveal-image] > * {
+    transform: none !important;
+  }
+
+  /* Looping decoration stops; state driven transitions (Radix, theme) stay
+     intact because they resolve instantly rather than being cancelled. */
+  [class*="animate-"],
+  [data-animate] {
+    animation: none !important;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   Editorial utilities
+   ========================================================================== */
+
+@utility section {
+  padding-block: calc(var(--spacing) * 20);
+
+  @media (width >= 48rem) {
+    padding-block: calc(var(--spacing) * 28);
+  }
+
+  @media (width >= 80rem) {
+    padding-block: calc(var(--spacing) * 36);
+  }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-eyebrow);
+  font-weight: var(--text-eyebrow--font-weight);
+  letter-spacing: var(--text-eyebrow--letter-spacing);
+  line-height: var(--text-eyebrow--line-height);
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+}
+
+@utility prism-text {
+  background-image: var(--prism);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fine film grain. Cheap (a single inline SVG, no image request) and it keeps
+   large flat surfaces from looking like a template. */
+@utility grain {
+  position: relative;
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.28;
+    mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+}
+
+@utility prism-rule {
+  height: 1px;
+  width: 100%;
+  background-image: var(--prism);
+  opacity: 0.55;
+}
+
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+/* The last line of the hero headline picks up a cool iridescent gradient.
+   Applied to the SplitText line elements, so it degrades to plain ink if the
+   split never runs (no JS, plugin unavailable). */
+.hero-title .split-line-mask:last-child > .split-line {
+  background-image: linear-gradient(
+    100deg,
+    var(--color-2),
+    var(--color-3),
+    var(--color-5)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.scroll-cue {
+  animation: scroll-cue 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-110%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(300%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(300%);
+    opacity: 0;
   }
 }

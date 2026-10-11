@@ -35,7 +35,7 @@ export default function Loading() {
       {/* Right sidebar skeleton */}
       <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[calc(100svh-var(--footer-height)+2rem)] w-84 flex-col gap-4 overflow-hidden overscroll-none xl:flex">
         <div className="h-(--top-spacing) shrink-0" />
-        <div className="no-scrollbar overflow-y-auto px-8">
+        <div className="no-scrollbar overflow-y-auto px-8" data-lenis-prevent>
           {/* Table of contents skeleton */}
           <div className="flex flex-col gap-3">
             <Skeleton className="h-4 w-24" />
