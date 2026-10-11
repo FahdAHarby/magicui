@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { showcaseSource } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
+import { Reveal } from "@/components/motion/reveal"
 import { ShowcaseCard } from "@/components/sections/showcase"
 
 export const revalidate = false
@@ -73,19 +74,27 @@ export default async function PagePage({ params }: PageProps) {
   const { doc, page } = await getDocFromParams({ params })
 
   return (
-    <article className="container max-w-2xl py-14">
-      <h2 className="text-foreground mb-4 text-center text-5xl leading-[1.2] font-bold tracking-tighter">
-        {doc.title}
-      </h2>
-      <h3 className="text-foreground/80 mx-auto mb-8 text-center text-lg font-medium tracking-tight text-balance">
-        {doc.title} uses Magic UI to build their landing page.
-      </h3>
-      <ShowcaseCard
-        title={doc.title ?? ""}
-        href={doc.href ?? page.url}
-        image={doc.image ?? ""}
-        affiliation={doc.affiliation ?? ""}
-      />
+    <article className="section container max-w-3xl">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <span className="eyebrow inline-flex items-center gap-2">
+          <span className="bg-foreground/70 size-1 rounded-full" />
+          Showcase
+        </span>
+        <h2 className="text-headline font-semibold text-balance">
+          {doc.title}
+        </h2>
+        <p className="text-lead text-muted-foreground max-w-[52ch] text-balance">
+          {doc.title} uses Magic UI to build their landing page.
+        </p>
+      </div>
+      <Reveal y={20} className="mx-auto mt-12 max-w-xl">
+        <ShowcaseCard
+          title={doc.title ?? ""}
+          href={doc.href ?? page.url}
+          image={doc.image ?? ""}
+          affiliation={doc.affiliation ?? ""}
+        />
+      </Reveal>
     </article>
   )
 }

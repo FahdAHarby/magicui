@@ -1,28 +1,29 @@
 import { showcaseSource } from "@/lib/source"
+import { Reveal } from "@/components/motion/reveal"
+import { SectionHeading } from "@/components/sections/section-heading"
 import { ShowcaseCard } from "@/components/sections/showcase"
-import { BlurFade } from "@/registry/magicui/blur-fade"
 
 export default function Page() {
   const showcases = showcaseSource.getPages()
+
   return (
-    <article className="container max-w-[120ch] py-14">
-      <h2 className="text-foreground mb-2 text-center text-5xl leading-[1.2] font-bold tracking-tighter">
-        Showcase
-      </h2>
-      <h3 className="text-foreground/80 mx-auto mb-8 text-center text-lg font-medium tracking-tight text-balance">
-        Companies choose Magic UI to build their landing pages.
-      </h3>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {showcases.map((showcase, idx) => (
-          <BlurFade key={idx} delay={0.25 + idx * 0.05}>
+    <article className="section container">
+      <SectionHeading
+        eyebrow="Showcase"
+        title="Sites built with Magic UI"
+        description="Landing pages, dashboards and portfolios from teams who started with a component and kept going."
+      />
+
+      <div className="mt-12 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+        {showcases.map((showcase, index) => (
+          <Reveal key={showcase.url} y={18} delay={(index % 3) * 0.06}>
             <ShowcaseCard
-              {...showcase}
               href={showcase.url}
               title={showcase.data.title ?? ""}
               image={showcase.data.image ?? ""}
               affiliation={showcase.data.affiliation ?? ""}
             />
-          </BlurFade>
+          </Reveal>
         ))}
       </div>
     </article>

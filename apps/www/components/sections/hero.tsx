@@ -1,10 +1,14 @@
 import Link from "next/link"
-import { ChevronRight } from "lucide-react"
+import { ArrowRight, ChevronRight } from "lucide-react"
 
 import { source } from "@/lib/source"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import { HeroBackdrop } from "@/components/motion/hero-backdrop"
+import { Magnetic } from "@/components/motion/magnetic"
+import { Reveal } from "@/components/motion/reveal"
+import { ScrollFade } from "@/components/motion/scroll-fade"
+import { SplitLines } from "@/components/motion/split-lines"
 import { TechStack } from "@/components/tech-stack"
 
 export function Hero() {
@@ -23,84 +27,89 @@ export function Hero() {
   const pageTitle = page?.data?.title
 
   return (
-    <section id="hero">
-      <div className="relative h-full overflow-hidden py-5 md:py-14">
-        <div className="z-10 flex flex-col">
-          <div className="mt-10 grid grid-cols-1 md:mt-20">
-            <div className="flex flex-col items-start gap-6 px-7 pb-8 text-center md:items-center md:px-10">
+    <section id="hero" className="relative isolate overflow-hidden">
+      <HeroBackdrop />
+
+      <div className="relative container">
+        <ScrollFade className="mx-auto flex min-h-[calc(100svh-11rem)] max-w-4xl flex-col items-center justify-center gap-8 py-16 text-center md:gap-10 md:py-20">
+          <Reveal y={8} duration={0.7}>
+            <Link
+              href={page?.url ?? "/blog"}
+              className="group hover:border-foreground/25 focus-ring border-border/70 bg-background/60 inline-flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 backdrop-blur-sm transition-colors duration-300"
+            >
+              <span className="bg-foreground text-background rounded-full px-2.5 py-1 font-mono text-[0.625rem] font-medium tracking-[0.14em] uppercase">
+                New
+              </span>
+              <span className="text-muted-foreground group-hover:text-foreground truncate text-[0.8125rem] font-medium transition-colors duration-300">
+                Introducing {pageTitle}
+              </span>
+              <ChevronRight className="text-muted-foreground size-3.5 shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+            </Link>
+          </Reveal>
+
+          <SplitLines
+            as="h1"
+            trigger="load"
+            delay={0.15}
+            duration={1.2}
+            stagger={0.11}
+            className="hero-title text-display max-w-[20ch] font-semibold text-balance"
+          >
+            UI library for Design Engineers
+          </SplitLines>
+
+          <Reveal delay={0.55} y={16}>
+            <p className="text-lead text-muted-foreground max-w-[54ch] text-balance">
+              150+ free and open-source animated components and effects built
+              with <b className="text-foreground font-[550]">React</b>,{" "}
+              <b className="text-foreground font-[550]">Typescript</b>,{" "}
+              <b className="text-foreground font-[550]">Tailwind CSS</b>, and{" "}
+              <b className="text-foreground font-[550]">Motion</b>.
+              <br className="hidden sm:block" /> Perfect companion for{" "}
+              <b className="text-foreground font-[550]">shadcn/ui</b>.
+            </p>
+          </Reveal>
+
+          <Reveal
+            delay={0.68}
+            y={16}
+            stagger={0.09}
+            className="flex w-full flex-col items-stretch gap-3 sm:w-auto sm:flex-row sm:items-center"
+          >
+            <Magnetic strength={0.16}>
               <Link
-                href={page?.url ?? ""}
+                href="/components"
                 className={cn(
-                  buttonVariants({
-                    variant: "outline",
-                    size: "sm",
-                  }),
-                  "rounded-full"
+                  buttonVariants({ variant: "rainbow", size: "lg" }),
+                  "group h-12 w-full rounded-xl px-7 text-[0.9375rem] sm:w-auto"
                 )}
               >
-                🎉 <Separator className="mx-2 h-4" orientation="vertical" />
-                Introducing {pageTitle}
-                <ChevronRight className="text-muted-foreground ml-1 size-4" />
+                Browse Components
+                <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
               </Link>
-              <div className="relative flex flex-col gap-4 md:items-center lg:flex-row">
-                <h1
-                  className={cn(
-                    "text-black dark:text-white",
-                    "relative mx-0 max-w-174 pt-5 md:mx-auto md:px-4 md:py-2",
-                    "text-left font-semibold tracking-tighter text-balance md:text-center",
-                    "text-5xl sm:text-7xl md:text-7xl lg:text-7xl"
-                  )}
-                >
-                  UI library for Design Engineers
-                </h1>
-              </div>
+            </Magnetic>
+            <Magnetic strength={0.12}>
+              <Link
+                href="https://pro.magicui.design"
+                className={cn(
+                  buttonVariants({ variant: "rainbow-outline", size: "lg" }),
+                  "group h-12 w-full rounded-xl px-7 text-[0.9375rem] sm:w-auto"
+                )}
+              >
+                Browse Templates
+                <ArrowRight className="size-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+              </Link>
+            </Magnetic>
+          </Reveal>
 
-              <p className="text-primary max-w-xl text-left text-base tracking-tight text-balance md:text-center md:text-lg">
-                150+ free and open-source animated components and effects built
-                with <b className="font-[550] dark:font-[580]">React</b>,{" "}
-                <b className="font-[550] dark:font-[580]">Typescript</b>,{" "}
-                <b className="font-[550] dark:font-[580]">Tailwind CSS</b>, and{" "}
-                <b className="font-[550] dark:font-[580]">Motion</b>
-                .
-                <br />
-                Perfect companion for{" "}
-                <b className="font-[550] dark:font-[580]">shadcn/ui</b>.
-              </p>
-
-              <div className="flex w-full flex-col gap-4 gap-y-2 md:mx-auto md:max-w-xs md:flex-row md:justify-center">
-                <Link
-                  href="/components"
-                  className={cn(
-                    buttonVariants({
-                      variant: "rainbow",
-                      size: "lg",
-                    }),
-                    "w-full gap-2"
-                  )}
-                >
-                  Browse Components
-                  <ChevronRight className="ml-1 size-4 shrink-0 transition-all duration-300 ease-out group-hover:translate-x-1" />
-                </Link>
-                <Link
-                  href="https://pro.magicui.design"
-                  className={cn(
-                    buttonVariants({
-                      size: "lg",
-                      variant: "rainbow-outline",
-                    }),
-                    "w-full gap-2"
-                  )}
-                >
-                  Browse Templates
-                  <ChevronRight className="ml-1 size-4 shrink-0 transition-all duration-300 ease-out group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative mx-auto flex w-full max-w-56 items-center justify-center">
+          <Reveal
+            delay={0.82}
+            y={12}
+            className="mt-4 flex flex-col items-center gap-4"
+          >
+            <span className="eyebrow">Built with</span>
             <TechStack
-              className="mx-auto flex w-full items-center justify-between"
+              className="text-muted-foreground items-center gap-6 [&_svg]:size-6"
               technologies={[
                 "react",
                 "typescript",
@@ -109,7 +118,16 @@ export function Hero() {
                 "shadcn",
               ]}
             />
-          </div>
+          </Reveal>
+        </ScrollFade>
+      </div>
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-7 hidden justify-center md:flex">
+        <div className="flex flex-col items-center gap-3">
+          <span className="eyebrow">Scroll</span>
+          <span className="bg-border relative block h-12 w-px overflow-hidden">
+            <span className="scroll-cue bg-foreground/60 absolute inset-x-0 top-0 block h-1/3" />
+          </span>
         </div>
       </div>
     </section>

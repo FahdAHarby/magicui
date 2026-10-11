@@ -7,6 +7,7 @@ import { absoluteUrl, cn, constructMetadata } from "@/lib/utils"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Analytics } from "@/components/analytics"
+import { SmoothScrollProvider } from "@/components/motion/smooth-scroll-provider"
 import { PHProvider } from "@/components/posthog-provider"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -41,17 +42,22 @@ export default function RootLayout({
           fontVariables
         )}
       >
-        <JotaiProvider>
-          <PHProvider>
-            <ThemeProvider attribute="class" defaultTheme="light">
-              <TooltipProvider>
-                {children}
-                <Toaster position="top-center" richColors toastOptions={{}} />
-                <Analytics />
-              </TooltipProvider>
-            </ThemeProvider>
-          </PHProvider>
-        </JotaiProvider>
+        <SmoothScrollProvider>
+          <JotaiProvider>
+            <PHProvider>
+              <ThemeProvider attribute="class" defaultTheme="light">
+                <TooltipProvider>
+                  {children}
+                  <Toaster position="top-center" richColors toastOptions={{}} />
+                  <Analytics />
+                </TooltipProvider>
+              </ThemeProvider>
+            </PHProvider>
+          </JotaiProvider>
+        </SmoothScrollProvider>
+        <noscript>
+          <style>{`[data-reveal],[data-reveal] > *,[data-split],[data-reveal-image],[data-reveal-image] > *{opacity:1 !important;transform:none !important;filter:none !important;clip-path:none !important}`}</style>
+        </noscript>
       </body>
     </html>
   )

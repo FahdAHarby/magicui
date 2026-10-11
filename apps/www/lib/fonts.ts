@@ -1,29 +1,12 @@
-import {
-  Geist_Mono as FontMono,
-  Geist as FontSans,
-  Inter,
-} from "next/font/google"
+import { GeistMono } from "geist/font/mono"
+import { GeistSans } from "geist/font/sans"
 
 import { cn } from "@/lib/utils"
 
-const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-})
-
-const fontMono = FontMono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["400"],
-})
-
-const fontInter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-})
-
-export const fontVariables = cn(
-  fontSans.variable,
-  fontMono.variable,
-  fontInter.variable
-)
+/**
+ * Geist is loaded with `next/font/local` through the `geist` package instead of
+ * `next/font/google`. The files are self-hosted from the app bundle, which
+ * removes a third-party request (and the render blocking CSS that comes with
+ * it), keeps type rendering identical offline, and eliminates FOUT.
+ */
+export const fontVariables = cn(GeistSans.variable, GeistMono.variable)
