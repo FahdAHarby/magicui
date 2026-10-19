@@ -13,9 +13,9 @@ import { ThemeProvider } from "@/components/theme-provider"
 import "@/styles/globals.css"
 
 export const metadata: Metadata = constructMetadata({
-  title: "Magic UI",
+  title: "KŌBO // FORMA — Architectural Furniture Archive",
   description:
-    "Beautiful UI components and templates to make your landing page look stunning.",
+    "Collectible monolithic furniture and spatial objects crafted from raw Tivoli travertine, charred Yakisugi oak, and Peruvian alpaca bouclé. Powered by Magic UI.",
   image: absoluteUrl("/og"),
 })
 

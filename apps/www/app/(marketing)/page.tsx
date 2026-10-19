@@ -1,15 +1,5 @@
-import { Hero } from "@/components/sections/hero"
-import { Showcase } from "@/components/sections/showcase"
-import { Testimonials } from "@/components/sections/testimonials"
-import { VideoTestimonials } from "@/components/sections/video-testimonials"
+import { ConceptFurnitureSite } from "@/components/furniture/concept-furniture-site"
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <Showcase />
-      <Testimonials />
-      <VideoTestimonials />
-    </>
-  )
+  return <ConceptFurnitureSite />
 }
