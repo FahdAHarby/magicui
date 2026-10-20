@@ -16,6 +16,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       url: domain,
       lastModified: new Date(),
     },
+    {
+      url: `${domain}/calypso`,
+      lastModified: new Date(),
+    },
     ...allDocs.map((post) => ({
       url: `${domain}${post.url}`,
       lastModified: post.data.date,
